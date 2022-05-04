@@ -1,7 +1,8 @@
-#include <iostream>
+#pragma once
+
 #include <sstream>
 #include <stack>
-#include <string>
+
 #include <vector>
 #include <map>
 #include "Decimal.h"
@@ -171,6 +172,9 @@ void infixToPostfix(string infix, vector<string>& postfix)
 string calculate(vector<string> postfix, map<string, string>& varList)
 {
 	vector<string> temp;
+	for (int i = 0; i < postfix.size(); i++) {
+		cout << postfix[i];
+	}
 	for (int i = 0; i < postfix.size(); i++)
 	{
 		// is operator
@@ -435,7 +439,7 @@ void splitInput(string input, vector<string>& inputVector)
 
 int main()
 {
-	string input;
+	/*string input;
 	map<string, string> varList;
 
 	while (getline(cin, input))
@@ -476,5 +480,11 @@ int main()
 			else
 				cout << "Variable does not exist" << endl;
 		}
-	}
+	}*/
+	Integer a = Integer();
+	a = "99999999999999999999";
+	Integer b = Integer();
+	b = "4";
+	a = a / b;
+	cout << a;
 }

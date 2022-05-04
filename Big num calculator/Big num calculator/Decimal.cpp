@@ -1,5 +1,4 @@
 #include "Decimal.h"
-#include <iostream>
 
 using namespace std;
 Decimal& Decimal::About_minutes(string l, string s) {
