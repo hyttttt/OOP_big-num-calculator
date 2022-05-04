@@ -87,8 +87,8 @@ string calculate(vector<string> postfix) {
 		   if (postfix[i] == "+" || postfix[i] == "-" || postfix[i] == "*" || postfix[i] == "/" || postfix[i] == "^") {
 			string A = istack[istack.size()-2];
 			Integer integerA = Integer();
-			if (variable.find(istack[0]) != variable.end()) {
-
+			if (variable.find(istack[istack.size() - 2]) != variable.end()) {
+				integerA = variable[istack[istack.size() - 2]].integer;
 			}
 			else {
 				integerA = istack[istack.size() - 2];
@@ -98,8 +98,8 @@ string calculate(vector<string> postfix) {
 			
 			string B = istack[istack.size() - 1];
 			Integer integerB = Integer();
-			if (variable.find(istack[0]) != variable.end()) {
-			
+			if (variable.find(istack[istack.size() - 1]) != variable.end()) {
+				integerB = variable[istack[istack.size() - 1]].integer;
 			}
 			else {
 				integerB = istack[istack.size() - 1];
@@ -120,6 +120,10 @@ string calculate(vector<string> postfix) {
 			}
 			if (postfix[i] == "*") {
 				integerA = integerA * integerB;
+
+			}
+			if (postfix[i] == "/") {
+				integerA = integerA / integerB;
 
 			}
 			
@@ -173,29 +177,30 @@ int main() {
 				//get type
 
 				if (variable.find(name) != variable.end()) {
+					variable[name].vType = 0;
+					variable[name].integer = value;
+				}
+				else {
 					VariableInfo variableInfo = VariableInfo();
 					variableInfo.vType = 0;
 					variableInfo.integer = value;
 					variable.insert({ name, variableInfo });
-				}
-				else {
-					variable[name].vType = 0;
-					variable[name].integer = value;
 				}
 			}
 			else if (temp == "float" || temp == "Decimal") {
 				//get type
 
 				if (variable.find(name) != variable.end()) {
+					variable[name].vType = 1;
+					variable[name].decimal = value;
+				}
+				else {
 					VariableInfo variableInfo = VariableInfo();
 					variableInfo.vType = 1;
 					variableInfo.decimal = value;
 					variable.insert({ name, variableInfo });
 				}
-				else {
-					variable[name].vType = 1;
-					variable[name].decimal = value;
-				}
+				cout << variable[name].decimal.denominator;
 			}
 		}
 		//calculation

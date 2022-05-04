@@ -17,7 +17,7 @@ public:
 	string BigNumAdd(string l, string s);
 	string BigNumMinus(string l, string s);
 	string BigNumMultiply(string l, string s);
-
+	string BigNumDivision(string l, string s);
 	//operator overloading
 	Integer operator=(const Integer& rhs) {
 		this->value = rhs.value;
@@ -42,7 +42,11 @@ public:
 		tmp.value = Integer::BigNumMultiply(this->value, rhs.value);
 		return tmp;
 	}
-	Integer operator/(const Integer&);
+	Integer operator/(const Integer& rhs) {
+		Integer tmp;
+		tmp.value = Integer::BigNumDivision(this->value, rhs.value);
+		return tmp;
+	};
 	friend ostream& operator<<(ostream& os, Integer& I) {
 		os << I.value;
 		return os;
