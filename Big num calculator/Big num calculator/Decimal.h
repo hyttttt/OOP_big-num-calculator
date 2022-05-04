@@ -12,7 +12,7 @@ public:
 
 	string BigNumAdd(string l, string s);
 	string BigNumMinus(string l, string s);
-	//string BigNumMultiply(string l, string s);
+	string BigNumMultiply(string l, string s);
 	string BigNumDivision(string l, string s);
 	Decimal& About_minutes(string l, string s);
 
@@ -58,10 +58,22 @@ public:
 	};
 
 
-	Decimal operator+(const Decimal&);
-	Decimal operator-(const Decimal&);
-	Decimal operator*(const Decimal&);
-	Decimal operator/(const Decimal&);
+	Decimal operator+(const Decimal&) {
+
+	};
+	Decimal operator-(const Decimal&) {
+
+	};
+	Decimal operator*(const Decimal&rhs) {
+		this->numerator = BigNumMultiply(this->numerator , rhs.numerator);
+		this->denominator = BigNumMultiply(this->denominator , rhs.denominator);
+		return About_minutes(this->numerator, this->denominator);
+	};
+	Decimal operator/(const Decimal&rhs) {
+		this->numerator = BigNumMultiply(this->numerator, rhs.denominator);
+		this->denominator = BigNumMultiply(this->denominator, rhs.numerator);
+		return About_minutes(this->numerator, this->denominator);
+	};
 	Decimal operator^(const Decimal&);
 
 	Decimal operator+(const Integer&);
