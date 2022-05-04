@@ -463,7 +463,7 @@ int main()
 		}
 
 		//modify variable
-		else if (isVar(inputVector[0]) && inputVector[1] == "=") {
+		else if (isVar(inputVector[0], varList) && inputVector[1] == "=") {
 			setVar("none", inputVector[0], inputVector[2], varList);
 		}
 
@@ -477,7 +477,7 @@ int main()
 
 		// output variable
 		else {
-			if (isVar(input)) {
+			if (isVar(input, varList)) {
 				cout << varList[input] << endl;
 			}
 			else {
