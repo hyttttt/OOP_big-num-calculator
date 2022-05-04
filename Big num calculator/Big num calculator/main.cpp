@@ -463,7 +463,7 @@ int main()
 		}
 
 		//modify variable
-		else if (isVar(inputVector[0], varList) && inputVector[1] == "=") {
+		else if (inputVector.size() != 1 && isVar(inputVector[0], varList) && inputVector[1] == "=") {
 			setVar("none", inputVector[0], inputVector[2], varList);
 		}
 
