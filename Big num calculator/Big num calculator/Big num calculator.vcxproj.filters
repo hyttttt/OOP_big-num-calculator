@@ -18,11 +18,11 @@
     <ClCompile Include="main.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
+    <ClCompile Include="Integer.cpp">
+      <Filter>資源檔</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Number.h">
-      <Filter>標頭檔</Filter>
-    </ClInclude>
     <ClInclude Include="Integer.h">
       <Filter>標頭檔</Filter>
     </ClInclude>

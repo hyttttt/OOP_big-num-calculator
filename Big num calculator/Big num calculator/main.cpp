@@ -4,28 +4,35 @@
 #include <string>
 #include <vector>
 #include <map>
-#include"Decimal.h"
+#include "Decimal.h"
 
 using namespace std;
 class VariableInfo {
-	//vType 0為Integer 1為Decimal 
-public: 
+public:
 	int vType;
-	//
-    string value;
-	
+	Decimal decimal= Decimal();
+	Integer integer = Integer();
+	VariableInfo() {
+		decimal= Decimal();
+		integer = Integer();
+	}
 };
 
 
-//儲存變數資訊
 map < string, VariableInfo > variable = map < string, VariableInfo >();
 
 int priority(string op) {
-	if (op == "+"  || op == "-") {
+	if (op == "+" || op == "-") {
 		return 1;
 	}
-	if (op == "*" || op == "/") {
+	else if (op == "*" || op == "/") {
 		return 2;
+	}
+	else if (op == "^") {
+		return 4;
+	}
+	else if (op == "!") {
+		return 5;
 	}
 	return 0;
 }
@@ -36,14 +43,14 @@ vector<string> infixToPostfix(vector<string> infix) {
 	istack.clear();
 	output.clear();
 
-	
+
 
 	for (int i = 0; i < infix.size(); i++) {
 		if (infix[i] == "(") {
 			istack.push_back(infix[i]);
 		}
-		else if (infix[i]=="+" || infix[i] == "-" || infix[i] == "*" || infix[i] == "/") {
-			if (istack.size()==0 || istack[istack.size() - 1] == "(") {
+		else if (infix[i] == "+" || infix[i] == "-" || infix[i] == "*" || infix[i] == "/") {
+			if (istack.size() == 0 || istack[istack.size() - 1] == "(") {
 				istack.push_back(infix[i]);
 			}
 			else if (priority(istack[istack.size() - 1]) < priority(infix[i])) {
@@ -66,7 +73,8 @@ vector<string> infixToPostfix(vector<string> infix) {
 			output.push_back(infix[i]);
 		}
 	}
-	while (istack.size() != 0) {
+	output.pop_back();
+	while (istack.size() > 0) {
 		output.push_back(istack[istack.size() - 1]);
 		istack.pop_back();
 	}
@@ -76,17 +84,63 @@ vector<string> infixToPostfix(vector<string> infix) {
 string calculate(vector<string> postfix) {
 	vector<string>istack;
 	for (int i = 0; i < postfix.size(); i++) {
-		
+		   if (postfix[i] == "+" || postfix[i] == "-" || postfix[i] == "*" || postfix[i] == "/" || postfix[i] == "^") {
+			string A = istack[istack.size()-2];
+			Integer integerA = Integer();
+			if (variable.find(istack[0]) != variable.end()) {
+
+			}
+			else {
+				integerA = istack[istack.size() - 2];
+			}
+            
+
+			
+			string B = istack[istack.size() - 1];
+			Integer integerB = Integer();
+			if (variable.find(istack[0]) != variable.end()) {
+			
+			}
+			else {
+				integerB = istack[istack.size() - 1];
+			}
+
+			
+			
+			istack.pop_back();
+			istack.pop_back();
+
+			if (postfix[i] == "+") {
+				integerA = integerA + integerB;
+				
+			}
+			if (postfix[i] == "-") {
+				integerA = integerA - integerB;
+
+			}
+			if (postfix[i] == "*") {
+				integerA = integerA * integerB;
+
+			}
+			
+			istack.push_back(integerA.value);
+
+		}
+		else if (postfix[i] == "!") {
+
+		}
+		else {
+			istack.push_back(postfix[i]);
+		}
 	}
-	return variable[postfix[0]].value;
+	if (variable.find(istack[0]) != variable.end()) {
+		return variable[istack[0]].integer.value;
+	}
+	return istack[0];
 }
 
 int main() {
 	string input;
-
-	
-	
-	
 	while (true)
 	{
 		getline(cin, input);
@@ -94,8 +148,8 @@ int main() {
 		ss.str("");
 		ss.clear();
 
-		string temp;
-		ss << input;
+		string temp=input;
+		ss << temp;
 
 		ss >> temp;
 
@@ -103,39 +157,51 @@ int main() {
 		if (temp == "exit")	break;
 
 		//set variable
-		else if (temp=="set"|| temp == "Set"|| temp == "SET") {
+		else if (temp == "set" || temp == "Set" || temp == "SET") {
 
-			VariableInfo variableInfo = VariableInfo();
+			
 			string name;
 			string garbageMessage;
+			string value;
 			ss >> temp;
 			//get name
 			ss >> name;
-			//清除 =
 			ss >> garbageMessage;
-			ss >> variableInfo.value;
+			ss >> value;
+			
 			if (temp == "int" || temp == "Integer") {
 				//get type
-				variableInfo.vType = 0;
-				
+
+				if (variable.find(name) != variable.end()) {
+					VariableInfo variableInfo = VariableInfo();
+					variableInfo.vType = 0;
+					variableInfo.integer = value;
+					variable.insert({ name, variableInfo });
+				}
+				else {
+					variable[name].vType = 0;
+					variable[name].integer = value;
+				}
 			}
 			else if (temp == "float" || temp == "Decimal") {
 				//get type
-				variableInfo.vType = 1;
-				
-			}
-			//儲存變數資訊
-			if (variable.find(name) != variable.end()) {
-				variable[name] = variableInfo;
-			}
-			else {
-				variable.insert(pair<string, VariableInfo>(name, variableInfo));
-			};
-		}
 
+				if (variable.find(name) != variable.end()) {
+					VariableInfo variableInfo = VariableInfo();
+					variableInfo.vType = 1;
+					variableInfo.decimal = value;
+					variable.insert({ name, variableInfo });
+				}
+				else {
+					variable[name].vType = 1;
+					variable[name].decimal = value;
+				}
+			}
+		}
 		//calculation
-		else {
+		else if(input.find("=",0)==string::npos) {
 			vector<string>stemp;
+			stemp.clear();
 			stemp.push_back(temp);
 			while (ss) {
 				temp = "";
@@ -144,7 +210,32 @@ int main() {
 			}
 			vector <string> postfix = infixToPostfix(stemp);
 			string result = calculate(postfix);
-			cout << result << endl;
+			cout << result << "\n";
+		}
+		else {
+			vector<string>stemp;
+			stemp.clear();
+			string temp2 = "";
+			ss >> temp2;
+			while (ss) {
+				temp2 = "";
+				ss >> temp2;
+				stemp.push_back(temp2);
+			}
+			if (variable.find(temp) != variable.end()) {
+				vector <string> postfix = infixToPostfix(stemp);
+				if (variable[temp].vType) {
+					string result = calculate(postfix);
+						variable[temp].decimal = result;
+				}
+				else {
+					string result = calculate(postfix);
+					variable[temp].integer = result;
+				}
+			}
+			else {
+
+			}
 		}
 	}
 }
