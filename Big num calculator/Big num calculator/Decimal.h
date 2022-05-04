@@ -52,17 +52,17 @@ public:
 		return *this;
 	};
 	Decimal operator=(string& rhs) {
-
-
 		return this->substring(rhs);
 	};
 
 
-	Decimal operator+(const Decimal&) {
-
+	Decimal operator+(const Decimal&rhs) {
+		this->numerator=BigNumAdd( BigNumMultiply(this->numerator, rhs.denominator), BigNumMultiply(rhs.numerator, this->denominator));
+		this->numerator = BigNumMultiply(this->denominator, rhs.denominator) ;
 	};
-	Decimal operator-(const Decimal&) {
-
+	Decimal operator-(const Decimal&rhs) {
+		this->numerator = BigNumMinus(BigNumMultiply(this->numerator, rhs.denominator), BigNumMultiply(rhs.numerator, this->denominator));
+		this->numerator = BigNumMultiply(this->denominator, rhs.denominator);
 	};
 	Decimal operator*(const Decimal&rhs) {
 		this->numerator = BigNumMultiply(this->numerator , rhs.numerator);
@@ -83,10 +83,23 @@ public:
 	Decimal operator^(const Integer&);
 
 	friend ostream& operator<<(ostream& os, Decimal& I) {
-		os << I.numerator;
-		if (I.denominator != "1") {
-			os << "." << I.denominator;
+		os << I.BigNumDivision(I.numerator, I.denominator);
+
+		string n = I.BigNumDivision(I.numerator, I.denominator);
+		if (I.BigNumMultiply(n, I.denominator) != I.numerator) {
+			os << ".";
+			int i = 0;
+			string input = I.BigNumMinus(I.numerator,I.BigNumMultiply(n, I.denominator) );
+			while (input != "0"&&i<100) {
+				i++;
+				input = input + "0";
+				n= I.BigNumDivision(input, I.denominator);
+				input= I.BigNumMinus(I.numerator,I.BigNumMultiply(n, I.denominator));
+				os << n;
+			}
 		}
+
+		
 
 		os << endl;
 		return os;
