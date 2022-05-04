@@ -89,10 +89,13 @@ void infixToPostfix(string infix, vector<string>& postfix)
 
 	for (int i = 0; i < infix.size(); i++)
 	{
-
 		// positive or negative sign
 		if ((infix[i] == '+' || infix[i] == '-') && (i == 0 || isSign(infix[i - 1])))
 		{
+			if (!currNum.empty()) {
+				postfix.push_back(currNum);
+				currNum.clear();
+			}
 
 			string op;
 			if (infix[i] == '+')
@@ -108,9 +111,11 @@ void infixToPostfix(string infix, vector<string>& postfix)
 		{
 
 			// put current number in postfix operation
-			postfix.push_back(currNum);
-			currNum.clear();
-
+			if (!currNum.empty()) {
+				postfix.push_back(currNum);
+				currNum.clear();
+			}
+	
 			// check whether to pop operator
 			string op(1, infix[i]);
 			pushOrPop(postfix, opList, op, true);
@@ -122,8 +127,10 @@ void infixToPostfix(string infix, vector<string>& postfix)
 		else if (infix[i] == '(')
 		{
 			// put current number in postfix operation
-			postfix.push_back(currNum);
-			currNum.clear();
+			if (!currNum.empty()) {
+				postfix.push_back(currNum);
+				currNum.clear();
+			}
 
 			// put operator into opList
 			string op(1, infix[i]);
@@ -133,7 +140,8 @@ void infixToPostfix(string infix, vector<string>& postfix)
 		else if (infix[i] == ')')
 		{
 			// put current number in postfix operation
-			postfix.push_back(currNum);
+			if (!currNum.empty())
+				postfix.push_back(currNum);
 			currNum.clear();
 
 			// pop all operators until meet left bracket
@@ -150,6 +158,9 @@ void infixToPostfix(string infix, vector<string>& postfix)
 			currNum.push_back(infix[i]);
 		}
 	}
+
+	if(!currNum.empty())
+		postfix.push_back(currNum);
 
 	while (!opList.empty()) {
 		postfix.push_back(opList.top());
@@ -391,6 +402,7 @@ string calculate(vector<string> postfix, map<string, string>& varList)
 	return temp[0];
 }
 
+
 void setVar(string type, string var, string value, map<string, string>& varList)
 {
 	if ((type == "int" || type == "Integer") && isDec(value))
@@ -403,8 +415,7 @@ void setVar(string type, string var, string value, map<string, string>& varList)
 		value += ".0";
 	}
 
-	//varList[var] = value;
-	varList.insert(pair<string, string>(var, value));
+	varList[var] = value;
 }
 
 void splitInput(string input, vector<string>& inputVector)
@@ -460,6 +471,10 @@ int main()
 			vector<string> postfix;
 			infixToPostfix(input, postfix);
 			cout << calculate(postfix, varList) << endl;
+			/*for (int i = 0; i < postfix.size(); i++) {
+				cout << postfix[i] << " ";
+			}
+			cout << endl;*/
 		}
 
 		// output variable
