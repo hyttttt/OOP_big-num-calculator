@@ -1,0 +1,4 @@
+﻿  main.cpp
+C:\Users\88696\Desktop\台科\大二下\物件導向實習\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.h(24,22): warning C4018: '<': signed/unsigned 不相符
+C:\Users\88696\Desktop\台科\大二下\物件導向實習\OOP_big-num-calculator\Big num calculator\Big num calculator\main.cpp(90,20): warning C4018: '<': signed/unsigned 不相符
+  Big num calculator.vcxproj -> C:\Users\88696\Desktop\台科\大二下\物件導向實習\OOP_big-num-calculator\Big num calculator\Debug\Big num calculator.exe
