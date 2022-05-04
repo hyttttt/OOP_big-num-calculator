@@ -38,45 +38,78 @@ public:
 	Decimal(const char rhs[]) : whole(rhs) {
 		substring(this->whole);
 	}
-	
+	string saveWhole(Decimal a) {
+		string r= a.BigNumDivision(a.numerator, a.denominator);
+
+		string n = a.BigNumDivision(a.numerator, a.denominator);
+		if (a.BigNumMultiply(n, a.denominator) != a.numerator) {
+			r=r+ ".";
+			int i = 0;
+			string input = a.BigNumMinus(a.numerator, a.BigNumMultiply(n, a.denominator));
+			while (input != "0" && i < 100) {
+				i++;
+				input = input + "0";
+				n = a.BigNumDivision(input, a.denominator);
+				input = a.BigNumMinus(a.numerator, a.BigNumMultiply(n, a.denominator));
+				r=r+ n;
+			}
+		}
+
+
+
+		return r;
+	}
 	//function
 
 	//operator overloading
 	Decimal& operator=(const Decimal& rhs) {
 		this->numerator = rhs.numerator;
 		this->denominator = rhs.denominator;
+		this->whole = saveWhole(*this);
 		return *this;
 	}
 	Decimal& operator=(const Integer& rhs) {
 		this->numerator = rhs.value;
+		this->denominator = "1";
+		this->whole = saveWhole(*this);
 		return *this;
 	};
 	Decimal operator=(string& rhs) {
-		return this->substring(rhs);
+		*this=substring(rhs);
+		this->whole = saveWhole(*this);
+		return *this;
 	};
 
 
 	Decimal operator+(const Decimal&rhs) {
 		this->numerator=BigNumAdd( BigNumMultiply(this->numerator, rhs.denominator), BigNumMultiply(rhs.numerator, this->denominator));
 		this->numerator = BigNumMultiply(this->denominator, rhs.denominator) ;
+		this->whole = saveWhole(*this);
 		return *this;
 	};
 	Decimal operator-(const Decimal&rhs) {
 		this->numerator = BigNumMinus(BigNumMultiply(this->numerator, rhs.denominator), BigNumMultiply(rhs.numerator, this->denominator));
 		this->numerator = BigNumMultiply(this->denominator, rhs.denominator);
+		this->whole = saveWhole(*this);
 		return *this;
 	};
 	Decimal operator*(const Decimal&rhs) {
 		this->numerator = BigNumMultiply(this->numerator , rhs.numerator);
 		this->denominator = BigNumMultiply(this->denominator , rhs.denominator);
-		return About_minutes(this->numerator, this->denominator);
+		*this = About_minutes(this->numerator, this->denominator);
+		this->whole = saveWhole(*this);
+		return *this;
 	};
 	Decimal operator/(const Decimal&rhs) {
 		this->numerator = BigNumMultiply(this->numerator, rhs.denominator);
 		this->denominator = BigNumMultiply(this->denominator, rhs.numerator);
-		return About_minutes(this->numerator, this->denominator);
+		*this = About_minutes(this->numerator, this->denominator);
+		this->whole = saveWhole(*this);
+		return *this;
 	};
-	Decimal operator^(const Decimal&);
+	Decimal operator^(const Decimal&D) {
+		return D;
+	};
 
 	friend Decimal& operator+(Decimal& D, Integer& I) {
 		return D;
@@ -100,25 +133,7 @@ public:
 		return I;
 	}
 	friend ostream& operator<<(ostream& os, Decimal& I) {
-		os << I.BigNumDivision(I.numerator, I.denominator);
-
-		string n = I.BigNumDivision(I.numerator, I.denominator);
-		if (I.BigNumMultiply(n, I.denominator) != I.numerator) {
-			os << ".";
-			int i = 0;
-			string input = I.BigNumMinus(I.numerator,I.BigNumMultiply(n, I.denominator) );
-			while (input != "0"&&i<100) {
-				i++;
-				input = input + "0";
-				n= I.BigNumDivision(input, I.denominator);
-				input= I.BigNumMinus(I.numerator,I.BigNumMultiply(n, I.denominator));
-				os << n;
-			}
-		}
-
 		
-
-		os << endl;
 		return os;
 	}
 	friend istream& operator>>(istream& os, Decimal& I) {
