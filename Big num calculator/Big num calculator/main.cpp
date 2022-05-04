@@ -4,81 +4,113 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "Decimal.h"
+#include"Decimal.h"
 
 using namespace std;
-class VariableInfo {
-public:
-	int vType;
-	Decimal decimal= Decimal();
-	Integer integer = Integer();
-	VariableInfo() {
-		decimal= Decimal();
-		integer = Integer();
-	}
-};
-
-
-map < string, VariableInfo > variable = map < string, VariableInfo >();
 
 int priority(string op) {
-	if (op == "+" || op == "-") {
-		return 1;
-	}
-	else if (op == "*" || op == "/") {
-		return 2;
-	}
-	else if (op == "^") {
+	if (op == "!")
 		return 4;
-	}
-	else if (op == "!") {
-		return 5;
-	}
-	return 0;
+	else if (op == "++" || op == "--") //positive and negative number
+		return 3;
+	else if (op == "*" || op == "/")
+		return 2;
+	else if (op == "+" || op == "-") //add and substract
+		return 1;
+	else
+		return 0;
 }
 
-vector<string> infixToPostfix(vector<string> infix) {
-	vector<string>istack;
-	vector<string>output;
-	istack.clear();
-	output.clear();
+inline bool isSign(char pre) {
+	if (isdigit(pre))
+		return false;
+	else
+		return true;
+}
 
+void pushOrPop(vector<string>& postfix, stack<string>& opList, string op, bool left) {
+	if (left)
+	{
+		while (opList.size() != 0 && opList.top() != "("
+			&& priority(opList.top()) >= priority(op))
+		{
+			postfix.push_back(opList.top());
+			opList.pop();
+		}
+	}
+	else
+	{
+		while (opList.size() != 0 && opList.top() != "("
+			&& priority(opList.top()) > priority(op))
+		{
+			postfix.push_back(opList.top());
+			opList.pop();
+		}
+	}
+}
 
+void infixToPostfix(string infix, vector<string>& postfix) {
+	string currNum;
+	stack<string> opList;
 
 	for (int i = 0; i < infix.size(); i++) {
-		if (infix[i] == "(") {
-			istack.push_back(infix[i]);
+
+		//positive or negative sign
+		if ((infix[i] == '+' || infix[i] == '-') && (i == 0 || isSign(infix[i - 1]))) {
+
+			string op;
+			if (infix[i] == '+')	op = "++";
+			else	op = "--";
+
+			pushOrPop(postfix, opList, op, false);
+			opList.push(op);
+
 		}
-		else if (infix[i] == "+" || infix[i] == "-" || infix[i] == "*" || infix[i] == "/") {
-			if (istack.size() == 0 || istack[istack.size() - 1] == "(") {
-				istack.push_back(infix[i]);
-			}
-			else if (priority(istack[istack.size() - 1]) < priority(infix[i])) {
-				istack.push_back(infix[i]);
-			}
-			else {
-				output.push_back(istack[istack.size() - 1]);
-				istack.pop_back();
-				istack.push_back(infix[i]);
-			}
+		//mathematics operators
+		else if (infix[i] == '*' || infix[i] == '/'
+			|| infix[i] == '!' || infix[i] == '^'
+			|| infix[i] == '+' || infix[i] == '-') {
+
+			//put current number in postfix operation
+			postfix.push_back(currNum);
+			currNum.clear();
+
+			//check whether to pop operator
+			string op(1, infix[i]);
+			pushOrPop(postfix, opList, op, true);
+
+			//put operator into opList
+			opList.push(op);
 		}
-		else if (infix[i] == ")") {
-			while (istack[istack.size() - 1] != "(") {
-				output.push_back(istack[istack.size() - 1]);
-				istack.pop_back();
-			}
-			istack.pop_back();
+		//left bracket
+		else if (infix[i] == '(') {
+			//put current number in postfix operation
+			postfix.push_back(currNum);
+			currNum.clear();
+
+			//put operator into opList
+			string op(1, infix[i]);
+			opList.push(op);
 		}
+		//right bracket
+		else if (infix[i] == ')') {
+			//put current number in postfix operation
+			postfix.push_back(currNum);
+			currNum.clear();
+
+			//pop all operators until meet left bracket
+			while (opList.top() != "(")
+			{
+				postfix.push_back(opList.top());
+				opList.pop();
+			}
+			opList.pop();
+		}
+		//number or varibale
 		else {
-			output.push_back(infix[i]);
+			currNum.push_back(infix[i]);
 		}
 	}
-	output.pop_back();
-	while (istack.size() > 0) {
-		output.push_back(istack[istack.size() - 1]);
-		istack.pop_back();
-	}
-	return output;
 }
 
 string calculate(vector<string> postfix) {
@@ -105,21 +137,31 @@ string calculate(vector<string> postfix) {
 				integerB = istack[istack.size() - 1];
 			}
 
-			
-			
-			istack.pop_back();
-			istack.pop_back();
+}
 
-			if (postfix[i] == "+") {
-				integerA = integerA + integerB;
-				
-			}
-			if (postfix[i] == "-") {
-				integerA = integerA - integerB;
+inline bool isDec(string num) {
+	if (num.find(".") != std::string::npos)
+		return true;
+	else
+		return false;
+}
 
-			}
-			if (postfix[i] == "*") {
-				integerA = integerA * integerB;
+inline void isVar(string str, map<string, string>& varList) {
+	auto iter = varList.find(str);
+	if (iter != varList.end())
+		cout << varList[str] << endl;
+	else
+		cout << "Variable does not exist" << endl;
+}
+
+void setVar(string type, string var, string value, map<string, string>& varList) {
+	if ((type == "int" || type == "Integer") && isDec(value)) {
+		string::size_type end = value.find(".");
+		value = value.substr(0, end - 0);
+	}
+	else if ((type == "float" || type == "Decimal") && !isDec(value)) {
+		value += ".0";
+	}
 
 			}
 			if (postfix[i] == "/") {
@@ -128,37 +170,43 @@ string calculate(vector<string> postfix) {
 			}
 			
 			istack.push_back(integerA.value);
+	varList[var] = value;
+}
 
-		}
-		else if (postfix[i] == "!") {
+void splitInput(string input, vector<string>& inputVector) {
+	string::size_type begin, end;
+	string pattern = " ";
 
+	begin = 0;
+	end = input.find(pattern);
+
+	while (end != std::string::npos) {
+		if (end - begin != 0) {
+			inputVector.push_back(input.substr(begin, end - begin));
 		}
-		else {
-			istack.push_back(postfix[i]);
-		}
+		begin = end + pattern.size();
+		end = input.find(pattern, begin);
 	}
-	if (variable.find(istack[0]) != variable.end()) {
-		return variable[istack[0]].integer.value;
+
+	if (begin != input.length()) {
+		inputVector.push_back(input.substr(begin));
 	}
-	return istack[0];
 }
 
 int main() {
 	string input;
-	while (true)
+
+	while (getline(cin, input))
 	{
-		getline(cin, input);
-		stringstream ss;
-		ss.str("");
-		ss.clear();
+		vector<string>inputVector;
+		map<string, string>varList;
 
-		string temp=input;
-		ss << temp;
-
-		ss >> temp;
+		splitInput(input, inputVector);
 
 		//stop input
-		if (temp == "exit")	break;
+		if (input == "exit") {
+			break;
+		}
 
 		//set variable
 		else if (temp == "set" || temp == "Set" || temp == "SET") {
@@ -189,58 +237,19 @@ int main() {
 			}
 			else if (temp == "float" || temp == "Decimal") {
 				//get type
-
-				if (variable.find(name) != variable.end()) {
-					variable[name].vType = 1;
-					variable[name].decimal = value;
-				}
-				else {
-					VariableInfo variableInfo = VariableInfo();
-					variableInfo.vType = 1;
-					variableInfo.decimal = value;
-					variable.insert({ name, variableInfo });
-				}
-				cout << variable[name].decimal.denominator;
-			}
+		else if (inputVector[0] == "set" || inputVector[0] == "Set" || inputVector[0] == "SET") {
+			setVar(inputVector[1], inputVector[2], inputVector[4], varList);
 		}
+
 		//calculation
-		else if(input.find("=",0)==string::npos) {
-			vector<string>stemp;
-			stemp.clear();
-			stemp.push_back(temp);
-			while (ss) {
-				temp = "";
-				ss >> temp;
-				stemp.push_back(temp);
-			}
-			vector <string> postfix = infixToPostfix(stemp);
-			string result = calculate(postfix);
-			cout << result << "\n";
+		else if (inputVector.size() == 1) {
+			vector<string> postfix;
+			infixToPostfix(input, postfix);
 		}
-		else {
-			vector<string>stemp;
-			stemp.clear();
-			string temp2 = "";
-			ss >> temp2;
-			while (ss) {
-				temp2 = "";
-				ss >> temp2;
-				stemp.push_back(temp2);
-			}
-			if (variable.find(temp) != variable.end()) {
-				vector <string> postfix = infixToPostfix(stemp);
-				if (variable[temp].vType) {
-					string result = calculate(postfix);
-						variable[temp].decimal = result;
-				}
-				else {
-					string result = calculate(postfix);
-					variable[temp].integer = result;
-				}
-			}
-			else {
 
-			}
+		//output variable
+		else {
+			isVar(input, varList);
 		}
 	}
 }
