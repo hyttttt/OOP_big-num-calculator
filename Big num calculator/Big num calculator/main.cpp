@@ -394,9 +394,14 @@ string calculate(vector<string> postfix, map<string, string>& varList)
 	return temp[0];
 }
 
-
 void setVar(string type, string var, string value, map<string, string>& varList)
 {
+	if (isOperation(value)) {
+		vector<string> post;
+		infixToPostfix(value, post);
+		value = calculate(post, varList);
+	}
+
 	if ((type == "int" || type == "Integer") && isDec(value))
 	{
 		string::size_type end = value.find(".");
@@ -457,16 +462,27 @@ int main()
 			setVar(inputVector[1], inputVector[2], inputVector[4], varList);
 		}
 
+		//modify variable
+		else if (isVar(inputVector[0]) && inputVector[1] == "=") {
+			setVar("none", inputVector[0], inputVector[2], varList);
+		}
+
 		// calculation
 		else if (isOperation(input))
 		{
 			vector<string> postfix;
 			infixToPostfix(input, postfix);
 			cout << calculate(postfix, varList) << endl;
-			
 		}
 
 		// output variable
-
+		else {
+			if (isVar(input)) {
+				cout << varList[input] << endl;
+			}
+			else {
+				cout << "Variable does not exist" << endl;
+			}
+		}
 	}
 }
