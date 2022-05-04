@@ -46,6 +46,10 @@ public:
 		Integer tmp;
 		tmp.value = Integer::BigNumDivision(this->value, rhs.value);
 		return tmp;
+	};Integer operator^(const Integer& rhs) {
+		Integer tmp;
+		tmp.value = Integer::BigNumDivision(this->value, rhs.value);
+		return tmp;
 	};
 	friend ostream& operator<<(ostream& os, Integer& I) {
 		os << I.value;

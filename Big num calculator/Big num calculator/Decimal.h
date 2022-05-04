@@ -59,10 +59,12 @@ public:
 	Decimal operator+(const Decimal&rhs) {
 		this->numerator=BigNumAdd( BigNumMultiply(this->numerator, rhs.denominator), BigNumMultiply(rhs.numerator, this->denominator));
 		this->numerator = BigNumMultiply(this->denominator, rhs.denominator) ;
+		return *this;
 	};
 	Decimal operator-(const Decimal&rhs) {
 		this->numerator = BigNumMinus(BigNumMultiply(this->numerator, rhs.denominator), BigNumMultiply(rhs.numerator, this->denominator));
 		this->numerator = BigNumMultiply(this->denominator, rhs.denominator);
+		return *this;
 	};
 	Decimal operator*(const Decimal&rhs) {
 		this->numerator = BigNumMultiply(this->numerator , rhs.numerator);
@@ -76,12 +78,27 @@ public:
 	};
 	Decimal operator^(const Decimal&);
 
-	Decimal operator+(const Integer&);
-	Decimal operator-(const Integer&);
-	Decimal operator*(const Integer&);
-	Decimal operator/(const Integer&);
-	Decimal operator^(const Integer&);
-
+	friend Decimal& operator+(Decimal& D, Integer& I) {
+		return D;
+	}friend Decimal& operator-(Decimal& D, Integer& I) {
+		return D;
+	}friend Decimal& operator*(Decimal& D, Integer& I) {
+		return D;
+	}friend Decimal& operator/(Decimal& D, Integer& I) {
+		return D;
+	}friend Decimal& operator^(Decimal& D, Integer& I) {
+		return D;
+	}friend Integer& operator+(Integer& I, Decimal& D ) {
+		return I;
+	}friend Integer& operator-(Integer& I, Decimal& D ) {
+		return I;
+	}friend Integer& operator*(Integer& I, Decimal& D ) {
+		return I;
+	}friend Integer& operator/(Integer& I, Decimal& D ) {
+		return I;
+	}friend Integer& operator^(Integer& I, Decimal& D ) {
+		return I;
+	}
 	friend ostream& operator<<(ostream& os, Decimal& I) {
 		os << I.BigNumDivision(I.numerator, I.denominator);
 
