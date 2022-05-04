@@ -1,6 +1,6 @@
 #pragma once
 #include "Integer.h"
-
+#include <math.h>
 class Decimal  {
 
 
@@ -9,18 +9,29 @@ public:
 	string numerator = "";
 	string denominator = "";
 
+
+	string BigNumAdd(string l, string s);
+	string BigNumMinus(string l, string s);
+	string BigNumMultiply(string l, string s);
+	string BigNumDivision(string l, string s);
+	Decimal& About_minutes(string l, string s);
+
 	Decimal& substring(string& a) {
 
 		if (a.find('.', 0) != string::npos) {
-			this->numerator = a.substr(0, a.find('.', 0));
-			this->denominator = a.substr(a.find('.', 0) + 1, a.size() - a.find('.', 0));
+			this->numerator = a.substr(0, a.find('.', 0))+ a.substr(a.find('.', 0) + 1, a.size() - a.find('.', 0));
+			this->denominator = "1";
+			for (int i = 0; i < a.size() - a.find('.', 0) - 1; i++) {
+				this->denominator = this->denominator + "0";
+			}
 		}
 		else {
 			this->numerator = a;
+			this->denominator = "1";
 		}
 		whole = a;
 
-		return*this;
+		return About_minutes(this->numerator, this->denominator = "1");
 	}
 	//constructor
 	Decimal() {};
@@ -29,18 +40,6 @@ public:
 	}
 	
 	//function
-	Decimal plus(const Decimal&);
-	Decimal minus(const Decimal&);
-	Decimal multiply(const Decimal&);
-	Decimal divide(const Decimal&);
-
-	Decimal plus(const Integer&);
-	Decimal minus(const Integer&);
-	Decimal multiply(const Integer&);
-	Decimal divide(const Integer&);
-	Decimal power(const Integer&);
-	Decimal sqrt();
-	Decimal factorial();
 
 	//operator overloading
 	Decimal& operator=(const Decimal& rhs) {
@@ -59,10 +58,22 @@ public:
 	};
 
 
-	Decimal operator+(const Decimal&);
-	Decimal operator-(const Decimal&);
-	Decimal operator*(const Decimal&);
-	Decimal operator/(const Decimal&);
+	Decimal operator+(const Decimal&) {
+
+	};
+	Decimal operator-(const Decimal&) {
+
+	};
+	Decimal operator*(const Decimal&rhs) {
+		this->numerator = BigNumMultiply(this->numerator , rhs.numerator);
+		this->denominator = BigNumMultiply(this->denominator , rhs.denominator);
+		return About_minutes(this->numerator, this->denominator);
+	};
+	Decimal operator/(const Decimal&rhs) {
+		this->numerator = BigNumMultiply(this->numerator, rhs.denominator);
+		this->denominator = BigNumMultiply(this->denominator, rhs.numerator);
+		return About_minutes(this->numerator, this->denominator);
+	};
 	Decimal operator^(const Decimal&);
 
 	Decimal operator+(const Integer&);
@@ -73,7 +84,7 @@ public:
 
 	friend ostream& operator<<(ostream& os, Decimal& I) {
 		os << I.numerator;
-		if (I.denominator != "") {
+		if (I.denominator != "1") {
 			os << "." << I.denominator;
 		}
 

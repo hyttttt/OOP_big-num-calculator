@@ -114,6 +114,28 @@ void infixToPostfix(string infix, vector<string>& postfix) {
 }
 
 string calculate(vector<string> postfix) {
+	vector<string>istack;
+	for (int i = 0; i < postfix.size(); i++) {
+		   if (postfix[i] == "+" || postfix[i] == "-" || postfix[i] == "*" || postfix[i] == "/" || postfix[i] == "^") {
+			string A = istack[istack.size()-2];
+			Integer integerA = Integer();
+			if (variable.find(istack[istack.size() - 2]) != variable.end()) {
+				integerA = variable[istack[istack.size() - 2]].integer;
+			}
+			else {
+				integerA = istack[istack.size() - 2];
+			}
+            
+
+			
+			string B = istack[istack.size() - 1];
+			Integer integerB = Integer();
+			if (variable.find(istack[istack.size() - 1]) != variable.end()) {
+				integerB = variable[istack[istack.size() - 1]].integer;
+			}
+			else {
+				integerB = istack[istack.size() - 1];
+			}
 
 }
 
@@ -141,6 +163,13 @@ void setVar(string type, string var, string value, map<string, string>& varList)
 		value += ".0";
 	}
 
+			}
+			if (postfix[i] == "/") {
+				integerA = integerA / integerB;
+
+			}
+			
+			istack.push_back(integerA.value);
 	varList[var] = value;
 }
 
@@ -180,6 +209,34 @@ int main() {
 		}
 
 		//set variable
+		else if (temp == "set" || temp == "Set" || temp == "SET") {
+
+			
+			string name;
+			string garbageMessage;
+			string value;
+			ss >> temp;
+			//get name
+			ss >> name;
+			ss >> garbageMessage;
+			ss >> value;
+			
+			if (temp == "int" || temp == "Integer") {
+				//get type
+
+				if (variable.find(name) != variable.end()) {
+					variable[name].vType = 0;
+					variable[name].integer = value;
+				}
+				else {
+					VariableInfo variableInfo = VariableInfo();
+					variableInfo.vType = 0;
+					variableInfo.integer = value;
+					variable.insert({ name, variableInfo });
+				}
+			}
+			else if (temp == "float" || temp == "Decimal") {
+				//get type
 		else if (inputVector[0] == "set" || inputVector[0] == "Set" || inputVector[0] == "SET") {
 			setVar(inputVector[1], inputVector[2], inputVector[4], varList);
 		}
