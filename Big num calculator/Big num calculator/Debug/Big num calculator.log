@@ -1,11 +1,5 @@
-﻿  Integer.cpp
-D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Integer.cpp(28,35): warning C4018: '<': signed/unsigned 不相符
-D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Integer.cpp(43,46): warning C4018: '<': signed/unsigned 不相符
-D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Integer.cpp(80,39): warning C4018: '<': signed/unsigned 不相符
-D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Integer.cpp(88,35): warning C4018: '<': signed/unsigned 不相符
-D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Integer.cpp(101,44): warning C4018: '<': signed/unsigned 不相符
-D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Integer.cpp(115,35): warning C4018: '<': signed/unsigned 不相符
-D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Integer.cpp(206,39): warning C4018: '<': signed/unsigned 不相符
-D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Integer.cpp(224,20): warning C4018: '<': signed/unsigned 不相符
-D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Integer.cpp(243,35): warning C4018: '<': signed/unsigned 不相符
+﻿  main.cpp
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.h(24,22): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\main.cpp(91,20): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\main.cpp(175,20): warning C4018: '<': signed/unsigned 不相符
   Big num calculator.vcxproj -> D:\work\OOP_big-num-calculator\Big num calculator\Debug\Big num calculator.exe
