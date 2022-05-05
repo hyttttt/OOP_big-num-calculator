@@ -1,5 +1,40 @@
-﻿  main.cpp
-C:\Users\88696\Desktop\台科\大二下\物件導向實習\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.h(24,22): warning C4018: '<': signed/unsigned 不相符
-C:\Users\88696\Desktop\台科\大二下\物件導向實習\OOP_big-num-calculator\Big num calculator\Big num calculator\main.cpp(91,20): warning C4018: '<': signed/unsigned 不相符
-C:\Users\88696\Desktop\台科\大二下\物件導向實習\OOP_big-num-calculator\Big num calculator\Big num calculator\main.cpp(175,20): warning C4018: '<': signed/unsigned 不相符
-  Big num calculator.vcxproj -> C:\Users\88696\Desktop\台科\大二下\物件導向實習\OOP_big-num-calculator\Big num calculator\Debug\Big num calculator.exe
+﻿  Decimal.cpp
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.h(35,22): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.cpp(62,35): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.cpp(77,46): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.cpp(114,39): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.cpp(122,35): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.cpp(135,44): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.cpp(149,35): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.cpp(217,39): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.cpp(234,20): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.cpp(253,35): warning C4018: '<': signed/unsigned 不相符
+  Integer.cpp
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Integer.cpp(28,35): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Integer.cpp(43,46): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Integer.cpp(80,39): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Integer.cpp(88,35): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Integer.cpp(101,44): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Integer.cpp(115,35): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Integer.cpp(206,39): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Integer.cpp(224,20): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Integer.cpp(243,35): warning C4018: '<': signed/unsigned 不相符
+  main.cpp
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.h(35,22): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\main.cpp(91,20): warning C4018: '<': signed/unsigned 不相符
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\main.cpp(175,20): warning C4018: '<': signed/unsigned 不相符
+  正在產生程式碼...
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.h(156): warning C4172: 傳回區域變數或暫存的位址: a
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.h(131): warning C4172: 傳回區域變數或暫存的位址: a
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.h(136): warning C4172: 傳回區域變數或暫存的位址: a
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.h(161): warning C4172: 傳回區域變數或暫存的位址: a
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.h(166): warning C4172: 傳回區域變數或暫存的位址: a
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.h(141): warning C4172: 傳回區域變數或暫存的位址: a
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.h(171): warning C4172: 傳回區域變數或暫存的位址: a
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.h(146): warning C4172: 傳回區域變數或暫存的位址: a
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.h(151): warning C4172: 傳回區域變數或暫存的位址: a
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.h(176): warning C4172: 傳回區域變數或暫存的位址: a
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.cpp(9): warning C4172: 傳回區域變數或暫存的位址: result
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.cpp(28): warning C4172: 傳回區域變數或暫存的位址: result
+D:\work\OOP_big-num-calculator\Big num calculator\Big num calculator\Decimal.cpp(34): warning C4172: 傳回區域變數或暫存的位址: result
+  Big num calculator.vcxproj -> D:\work\OOP_big-num-calculator\Big num calculator\Debug\Big num calculator.exe

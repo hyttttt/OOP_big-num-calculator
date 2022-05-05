@@ -195,7 +195,7 @@ string Integer::BigNumMultiply(string l, string s) {
     return res;
 }
 
-bool DivJudgement(string l, string r) {
+bool Integer::DivJudgement(string l, string r) {
     if (r.length() > l.length()) {
         return false;
     }

@@ -5,6 +5,9 @@ Decimal& Decimal::About_minutes(string l, string s) {
     Decimal result;
     result.numerator=l;
     result.denominator = s;
+    if (l == "1" || s == "1") {
+        return result;
+    }
     while (l != "1" && s != "1") {
         if (l.size() > s.size()) {
             l = BigNumMinus(l, s);
@@ -14,14 +17,15 @@ Decimal& Decimal::About_minutes(string l, string s) {
         }
         else {
             if (l < s) {
-                s=BigNumMinus(s, l);
+                s = BigNumMinus(s, l);
             }
-            if (s < l) {
-                l=BigNumMinus(l, s);
+            else if (s < l) {
+                l = BigNumMinus(l, s);
             }
-            if (s == l) {
-                result.numerator=BigNumDivision(result.numerator, l);
-                result.denominator=BigNumDivision(result.denominator, s);
+            else if (s == l) {
+                result.numerator = BigNumDivision(result.numerator, l);
+                result.denominator = BigNumDivision(result.denominator, s);
+                return result;
             }
 
         }
@@ -33,6 +37,15 @@ Decimal& Decimal::About_minutes(string l, string s) {
 
 
 string Decimal::BigNumAdd(string l, string s) { //l means the longer one value, s means the shorter one.
+    if (l == "0" && s == "0") {
+        return "0";
+    }
+    else if (l == "0") {
+        return s;
+    }
+    else if (s == "0") {
+        return l;
+    }
     bool IfequalMinus = false, IfNeg = false;
     string res;
     if (l[0] == '-' && s[0] == '-') { IfNeg = true; l.erase(l.begin()); s.erase(s.begin()); }
@@ -80,6 +93,17 @@ string Decimal::BigNumAdd(string l, string s) { //l means the longer one value, 
 };
 
 string Decimal::BigNumMinus(string l, string s) {
+    if (l == "0" && s == "0") {
+        return "0";
+    }
+    else if (l == "0") {
+        if (s[0] == '-') s.erase(s.begin());
+        else s.insert(s.begin(), '-');
+        return s;
+    }
+    else if (s == "0") {
+        return l;
+    }
     string res;
     bool IfTwoBigNumNeg = false, IfTwoBigNumSwitch = false;
     if (l[0] != '-' && s[0] == '-') { s.erase(s.begin()); return Decimal::BigNumAdd(l, s); }
@@ -87,9 +111,10 @@ string Decimal::BigNumMinus(string l, string s) {
     if (l[0] == '-' && s[0] == '-') { l.erase(l.begin()); s.erase(s.begin()); IfTwoBigNumNeg = true; } //¨â­t¼Æ®É
     if (l.length() < s.length()) { swap(l, s); IfTwoBigNumSwitch = true; }
     else if (l.length() == s.length()) {
-        for (int str_cnt = 0; str_cnt < l.length(); str_cnt++) {
+        for (int str_cnt = 0; str_cnt < l.size(); str_cnt++) {
+            if (l[str_cnt] == s[str_cnt]) { continue; }
             if (l[str_cnt] < s[str_cnt]) { swap(l, s); IfTwoBigNumSwitch = true; break; }
-            else continue;
+            if (l[str_cnt] > s[str_cnt]) { ; break; }
         }
     }
     reverse(l.begin(), l.end()), reverse(s.begin(), s.end());
@@ -121,8 +146,14 @@ string Decimal::BigNumMinus(string l, string s) {
         }
         res.insert(res.begin(), (int_l + '0'));
     }
-    if (IfTwoBigNumNeg ^ IfTwoBigNumSwitch) { res.insert(res.begin(), '-'); }
-    return res.substr(res.find_first_not_of('0'));
+    for (int str_cnt = 0; str_cnt < res.size(); str_cnt++) {
+        if (res[str_cnt] != '0') {
+            res = res.substr(res.find_first_not_of('0'));
+            if (IfTwoBigNumNeg ^ IfTwoBigNumSwitch) { res.insert(res.begin(), '-'); }
+            return res;
+        }
+    }
+    return "0";
 }
 string Decimal::BigNumMultiply(string l, string s) {
     bool IfNeg = false;
@@ -168,12 +199,66 @@ string Decimal::BigNumMultiply(string l, string s) {
         res.push_back((table[Arr_col - 1][i] + '0'));
     }
     reverse(res.begin(), res.end());
+    if (res.find_first_not_of('0') == string::npos) {
+        return "0";
+    }
     res = res.substr(res.find_first_not_of('0'));
     if (IfNeg) { res.insert(res.begin(), '-'); }
     return res;
 }
-string Decimal::BigNumDivision(string l, string s) {
-    string result = "0";
-    
-    return result;
+bool Decimal::DivJudgement(string l, string r) {
+    if (r.length() > l.length()) {
+        return false;
+    }
+    else if (l.length() > r.length()) {
+        return true;
+    }
+    else {
+        for (int str_cnt = 0; str_cnt < l.size(); str_cnt++) {
+            if (l[str_cnt] == r[str_cnt]) { continue; }
+            if (l[str_cnt] < r[str_cnt]) { return false; }
+            if (l[str_cnt] > r[str_cnt]) { return true; }
+        }
+        return true;
+    }
+}
+string Decimal::BigNumDivision(string l, string r) {
+    if (r == "0") return "Nonsense";
+    if (l == "0") return "0";
+    string tmp = "", res = "0";
+    bool IfNeg = false;
+    if (l[0] == '-' && r[0] != '-') { IfNeg = true; l.erase(l.begin()); }
+    if (l[0] != '-' && r[0] == '-') { IfNeg = true; r.erase(r.begin()); }
+    if (l[0] == '-' && r[0] == '-') { l.erase(l.begin()); r.erase(r.begin()); }
+    int tmp_cnt = 0;
+    while (tmp_cnt < l.size()) {
+
+        tmp.push_back(l[tmp_cnt]);
+        string append = "0";
+        if (DivJudgement(tmp, r) == true) {
+            while (DivJudgement(tmp, r) == true) {
+                tmp = BigNumMinus(tmp, r);
+                append = BigNumAdd(append, "1");
+            }
+            res.append(append);
+            if (tmp == "0") tmp.clear();
+            tmp_cnt++;
+        }
+        else {
+            if (tmp == "0") tmp.clear();
+            res.append(append);
+            tmp_cnt++;
+        }
+    }
+    for (int str_cnt = 0; str_cnt < res.size(); str_cnt++) {
+        if (res[str_cnt] != '0') {
+            res = res.substr(res.find_first_not_of('0'));
+            if (IfNeg) {
+                res = "-" + res;
+            }
+            return res;
+        }
+    }
+
+    return "0";
 }

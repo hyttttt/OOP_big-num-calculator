@@ -185,7 +185,7 @@ string calculate(vector<string> postfix, map<string, string>& varList)
 				// change sign
 				Integer integer = Integer();
 				integer=tempStr;
-				//integer.changeSign();
+				integer=integer.changeSign();
 
 				temp.push_back(integer.value);
 			}
@@ -200,7 +200,7 @@ string calculate(vector<string> postfix, map<string, string>& varList)
 					//factorial
 					Integer integer = Integer();
 					integer = tempStr;
-					//integer.factorial();
+					integer.factorial();
 
 					temp.push_back(integer.value);
 				}
@@ -303,7 +303,7 @@ string calculate(vector<string> postfix, map<string, string>& varList)
 						intA = temp1;
 						Integer intB = Integer();
 						intB = temp2;
-						intA = intA / intB;
+						intA = intA * intB;
 						temp.push_back(intA.value);
 					}
 					//int and dec
@@ -312,7 +312,7 @@ string calculate(vector<string> postfix, map<string, string>& varList)
 						num1 = temp1;
 						Decimal num2 = Decimal();
 						num2 = temp2;
-						num2 = num1 / num2;
+						num2 = num1 * num2;
 						temp.push_back(num2.whole);
 					}
 					//dec and int
@@ -322,7 +322,7 @@ string calculate(vector<string> postfix, map<string, string>& varList)
 						Integer num2 = Integer();
 						num2 = temp2;
 
-						num1 = num1 / num2;
+						num1 = num1 * num2;
 						temp.push_back(num1.whole);
 					}
 					//dec and dec
@@ -332,9 +332,50 @@ string calculate(vector<string> postfix, map<string, string>& varList)
 						Decimal num2 = Decimal();
 						num2 = temp2;
 
-						num1 = num1 / num2;
+						num1 = num1 * num2;
 						temp.push_back(num1.whole);
 					}
+				}
+				else if (postfix[i] == "/")
+				{
+				//int and int
+				if (!isDec(temp1) && !isDec(temp2)) {
+					Integer intA = Integer();
+					intA = temp1;
+					Integer intB = Integer();
+					intB = temp2;
+					intA = intA / intB;
+					temp.push_back(intA.value);
+				}
+				//int and dec
+				else if (!isDec(temp1) && isDec(temp2)) {
+					Integer num1 = Integer();
+					num1 = temp1;
+					Decimal num2 = Decimal();
+					num2 = temp2;
+					num2 = num1 / num2;
+					temp.push_back(num2.whole);
+				}
+				//dec and int
+				else if (isDec(temp1) && !isDec(temp2)) {
+					Decimal num1 = Decimal();
+					num1 = temp1;
+					Integer num2 = Integer();
+					num2 = temp2;
+
+					num1 = num1 / num2;
+					temp.push_back(num1.whole);
+				}
+				//dec and dec
+				else if (isDec(temp1) && isDec(temp2)) {
+					Decimal num1 = Decimal();
+					num1 = temp1;
+					Decimal num2 = Decimal();
+					num2 = temp2;
+
+					num1 = num1 / num2;
+					temp.push_back(num1.whole);
+				}
 				}
 				else if (postfix[i] == "^")
 				{

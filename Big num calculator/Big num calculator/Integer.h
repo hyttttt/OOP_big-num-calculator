@@ -19,6 +19,7 @@ public:
 	string BigNumMinus(string l, string s);
 	string BigNumMultiply(string l, string s);
 	string BigNumDivision(string l, string s);
+	bool DivJudgement(string l, string r);
 	//operator overloading
 	Integer operator=(const Integer& rhs) {
 		this->value = rhs.value;
@@ -28,6 +29,7 @@ public:
 		this->value = rhs;
 		return *this;
 	};
+	
 	Integer operator+(Integer& rhs) {
 		Integer tmp;
 		tmp.value = Integer::BigNumAdd(this->value, rhs.value);
@@ -48,9 +50,32 @@ public:
 		tmp.value = Integer::BigNumDivision(this->value, rhs.value);
 		return tmp;
 	};Integer operator^(const Integer& rhs) {
-		Integer tmp;
-		tmp.value = Integer::BigNumDivision(this->value, rhs.value);
+		Integer tmp=rhs;
+		Integer tmp2=rhs;
+		
+		while (tmp2.value != "1") {
+			tmp2.value = tmp2.BigNumMinus(tmp2.value, "1");
+			tmp.value = tmp.BigNumMultiply(tmp.value, tmp2.value);
+			cout << tmp.value << "\n";
+		}
 		return tmp;
+	}; 
+	Integer changeSign() {
+		this->value=BigNumDivision("0", this->value);
+
+		return *this;
+	};
+	Integer factorial(){
+		string r = "1";
+		string g = this->value;
+		while (g != "1") {
+			
+			r = BigNumMultiply(r, g);
+			g = BigNumMinus(g, "1");
+			
+		}
+		this->value = r;
+		return *this;
 	};
 	friend ostream& operator<<(ostream& os, Integer& I) {
 		os << I.value;
